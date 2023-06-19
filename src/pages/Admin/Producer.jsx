@@ -226,7 +226,7 @@ export default function Producer() {
         selected.slice(selectedIndex + 1)
       );
     }
-    setIdSelected(row.id);
+    setIdSelected(row._id);
     setSelected(newSelected);
   };
 
@@ -247,14 +247,15 @@ export default function Producer() {
     const id = idSelected;
     setBtnLoading(true);
     try {
-      await userApi.delete(id);
-      await userApi.getAll();
-      const user = await userApi.getAll();
+      const [, user] = await Promise([
+        producerApi.delete(id),
+        producerApi.getAll(),
+      ]);
       Noti("success", "Đã xóa thành công");
-      setBtnLoading(false);
-      rows.push(createData(user._id, user.fullname, user.phone, user.address));
+      // rows.push(createData(user._id, user.fullname, user.phone, user.address));
     } catch (error) {
       Noti("error", "Xóa thất bại", error.data);
+    } finally {
       setBtnLoading(false);
     }
   };
@@ -380,7 +381,7 @@ export default function Producer() {
                           scope="row"
                           padding="none"
                         >
-                          {row.id}
+                          {row._id}
                         </TableCell>
                         <TableCell align="right">{row.fullname}</TableCell>
                         <TableCell align="right">{row.phone}</TableCell>

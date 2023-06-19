@@ -5,7 +5,7 @@ const producerApi = {
   create: (payload) => axiosClient.post("producers", payload),
   get: (payload) => axiosClient.get(`producers/${payload.id}`, payload),
   update: (payload) => axiosClient.patch(`producers/${payload._id}`, payload),
-  delete: (payload) => axiosClient.delete(`producers/${payload.id}`, payload),
+  delete: (payload) => axiosClient.delete(`producers/${payload}`, payload),
 };
 
 export default producerApi;
